@@ -1,0 +1,56 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Node",
+      "description": "Secure encrypted tracking for user preferences and 2FA secrets.",
+      "type": "object",
+      "properties": {
+        "username": { "type": "string" },
+        "email": { "type": "string" },
+        "two_fa_secret": { "type": "string" },
+        "is_prime": { "type": "boolean" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["username", "email", "created_at"]
+    },
+    "VaultEntry": {
+      "title": "Vault Entry",
+      "description": "Encrypted password storage for various sites.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "siteName": { "type": "string" },
+        "usernameKey": { "type": "string" },
+        "encryptedPassword": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "siteName", "encryptedPassword", "created_at"]
+    },
+    "Message": {
+      "title": "Chat Message",
+      "description": "Ghost-to-Ghost encrypted-ready messages.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "username", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile and security settings."
+    },
+    "/vault/{entryId}": {
+      "schema": "VaultEntry",
+      "description": "Stored credentials in the encrypted vault."
+    },
+    "/conversations/{userId}/messages/{msgId}": {
+      "schema": "Message",
+      "description": "Private encrypted AI assistant message thread."
+    }
+  }
+}

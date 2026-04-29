@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) 
+        && request.resource.data.keys().hasAll(['username', 'email', 'created_at', 'is_prime'])
+        && request.resource.data.username is string
+        && request.resource.data.username.size() < 100
+        && request.resource.data.email == request.auth.token.email;
+      allow update: if isOwner(userId)
+        && request.resource.data.diff(resource.data).affectedKeys().hasAny(['two_fa_secret', 'is_prime']);
+    }
+
+    match /vault/{entryId} {
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasAll(['userId', 'siteName', 'usernameKey', 'encryptedPassword', 'created_at'])
+        && request.resource.data.encryptedPassword is string
+        && request.resource.data.encryptedPassword.size() < 5000;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    match /conversations/{userId}/messages/{msgId} {
+      allow read, write: if isSignedIn() && userId == request.auth.uid;
+    }
+  }
+}
