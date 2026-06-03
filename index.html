@@ -3,10 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>{ZENITH/GUARD}</title>
+    <style>
+      body { margin: 0; background-color: #050505; color: #06b6d4; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+      .loader { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+      .circle { width: 40px; height: 40px; border: 2px solid #06b6d440; border-top-color: #06b6d4; border-radius: 50%; animation: spin 1s linear infinite; }
+      .text { font-size: 10px; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; color: #083344; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="loader">
+        <div class="circle"></div>
+        <div class="text">Zenith Guard Initializing...</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

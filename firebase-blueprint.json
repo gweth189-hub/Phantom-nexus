@@ -50,7 +50,7 @@
     },
     "/conversations/{userId}/messages/{msgId}": {
       "schema": "Message",
-      "description": "Private encrypted AI assistant message thread."
+      "description": "Private encrypted system assistant message thread."
     }
   }
 }

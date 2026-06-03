@@ -1,6 +1,8 @@
 {
-  "name": "{ZENITH/GUARD}",
-  "description": "Premium Secure Digital Vault & AI Security Assistant. Features Basic/Pro/Dev operational modes, Nyte Lite AI, Encrypted Vault, 2FA, and System Terminal. Support: gweth189@gmail.com",
+  "name": "ZENITH",
+  "description": "Secure Digital Vault & Security Core.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
